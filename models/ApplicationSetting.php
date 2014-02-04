@@ -55,13 +55,13 @@ class ApplicationSetting
   public function __set($attr, $value)
   {
     $model = $this->getModel($attr);
-    if( $model !== null )
-    {
-      $model->{self::$settingsValueColumn} = $value;
-      if( !$model->save() )
-        throw new CHttpException('Could not save value \'' . $value . '\' to property \'' . $attr . '\'.', 503 );
+    if( $model === null ) {
+      throw new CHttpException('Could not get property \'' . $attr . '\' to assign value \'' . $value . '\'.', 503 );
     }
-    throw new CHttpException('Could not get property \'' . $attr . '\' to assign value \'' . $value . '\'.', 503 );
+    $model->{self::$settingsValueColumn} = $value;
+    if( !$model->save() ) {
+      throw new CHttpExcepton('Could not save value \'' . $value . '\' to property \'' . $attr . '\'.', 503 );
+    }
   }
 
   /**
